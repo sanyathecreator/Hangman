@@ -53,6 +53,24 @@ namespace Hangman
         
         public static void DisplayCharacters(char[] chars)
         {
+            char[] displayedWord = new char[chars.Count];
+            for(int i  = 0; i < displayedWord.Length; i++)
+            {
+                displayedWord[i] = '_';
+            }
+            return displayedWord;
+        }
+
+        public static char[] ChangeDisplayedWord(char[] displayedWord, string userInput, string word)
+        {
+            char[] chars = word.ToCharArray();
+            int index = Array.IndexOf(chars, userInput[0]);
+            displayedWord[index] = chars[index];
+            return displayedWord;
+        }
+
+        public static void DisplayCharacters(char[] displayedWord)
+        {
             Console.Clear();
             for(int i = 0; i < chars.Length; i++)
             {
@@ -91,7 +109,13 @@ namespace Hangman
 
             while (attempts > 0)
             {
-                DisplayCharacters(chars);
+                if (chars.Count == 0)
+                {
+                    DisplayEndScreen(word, true);
+                    break;
+                }
+                
+                DisplayCharacters(displayedWord);
                 string userInput = Console.ReadLine();
                 if (userInput == word)
                 {
